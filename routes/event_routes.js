@@ -93,10 +93,15 @@ event_router.put("/v1/events/:id", async (req, res) => {
         }
       );
       const updated = await EventModel.findOne({ _id: req.params.id });
+      if(updated.title === "" || updated.description === "" || updated.location ==="" || updated.end_time===""|| updated.start_time===""){
+        res.json({
+          error:"title and required field should not be empty and update again"
+        })
+      }else {
       res.status(200).json({
         status: "success",
         updated,
-      });
+      })}
     } else {
       res.status(404).json({
         error: "There is no event this ID",
